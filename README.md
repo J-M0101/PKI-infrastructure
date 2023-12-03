@@ -50,8 +50,8 @@ With the openssl ca command we issue a root CA certificate based on the CSR. The
 
 # 2. Create Signing CA
 ## 2.1 Create directories
-```
-mkdir -p ca/signing-ca/private ca/signing-ca/db crl certs
+
+```mkdir -p ca/signing-ca/private ca/signing-ca/db crl certs
 chmod 700 ca/signing-ca/private
 ```
 
