@@ -52,14 +52,16 @@ With the openssl ca command we issue a root CA certificate based on the CSR. The
 # 2. Create Signing CA
 ## 2.1 Create directories
 
-```mkdir -p ca/signing-ca/private ca/signing-ca/db crl certs
+```
+mkdir -p ca/signing-ca/private ca/signing-ca/db crl certs
 chmod 700 ca/signing-ca/private
 ```
 
 The ca directory holds CA resources, the crl directory holds CRLs, and the certs directory holds user certificates. We will use this layout for all CAs in this tutorial.
 
 ## 2.2 Create database
-```cp /dev/null ca/signing-ca/db/signing-ca.db
+```
+cp /dev/null ca/signing-ca/db/signing-ca.db
 cp /dev/null ca/signing-ca/db/signing-ca.db.attr
 echo 01 > ca/signing-ca/db/signing-ca.crt.srl
 echo 01 > ca/signing-ca/db/signing-ca.crl.srl
@@ -68,7 +70,8 @@ echo 01 > ca/signing-ca/db/signing-ca.crl.srl
 The contents of these files are described in Appendix B: CA Database.
 
 ## 2.3 Create CA request
-```openssl req -new \
+```
+openssl req -new \
     -config etc/signing-ca.conf \
     -out ca/signing-ca.csr \
     -keyout ca/signing-ca/private/signing-ca.key
@@ -88,7 +91,8 @@ With the openssl ca command we issue a certificate based on the CSR. The command
 
 # 3. Operate Signing CA
 ## 3.1 Create email request
-```openssl req -new \
+```
+openssl req -new \
     -config etc/email.conf \
     -out certs/fred.csr \
     -keyout certs/fred.key
@@ -97,7 +101,8 @@ With the openssl ca command we issue a certificate based on the CSR. The command
 With the openssl req -new command we create the private key and CSR for an email-protection certificate. We use a request configuration file specifically prepared for the task. When prompted enter these DN components: DC=org, DC=simple, O=Simple Inc, CN=Fred Flintstone, emailAddress=fred@simple.org. Leave other fields empty.
 
 ## 3.2 Create email certificate
-```openssl ca \
+```
+openssl ca \
     -config etc/signing-ca.conf \
     -in certs/fred.csr \
     -out certs/fred.crt \
@@ -106,7 +111,8 @@ With the openssl req -new command we create the private key and CSR for an email
 We use the signing CA to issue the email-protection certificate. The certificate type is defined by the extensions we attach. A copy of the certificate is saved in the certificate archive under the name ca/signing-ca/01.pem (01 being the certificate serial number in hex.)
 
 ## 3.3 Create TLS server request
-```SAN=DNS:www.simple.org \
+```
+SAN=DNS:www.simple.org \
 openssl req -new \
     -config etc/server.conf \
     -out certs/simple.org.csr \
@@ -116,7 +122,8 @@ openssl req -new \
 Next we create the private key and CSR for a TLS-server certificate using another request configuration file. When prompted enter these DN components: DC=org, DC=simple, O=Simple Inc, CN=www.simple.org. Note that the subjectAltName must be specified as environment variable. Note also that server keys typically have no passphrase.
 
 ## 3.4 Create TLS server certificate
-```openssl ca \
+```
+openssl ca \
     -config etc/signing-ca.conf \
     -in certs/simple.org.csr \
     -out certs/simple.org.crt \
@@ -125,7 +132,8 @@ Next we create the private key and CSR for a TLS-server certificate using anothe
 We use the signing CA to issue the server certificate. The certificate type is defined by the extensions we attach. A copy of the certificate is saved in the certificate archive under the name ca/signing-ca/02.pem.
 
 ## 3.5 Revoke certificate
-```openssl ca \
+```
+openssl ca \
     -config etc/signing-ca.conf \
     -revoke ca/signing-ca/01.pem \
     -crl_reason superseded
@@ -133,11 +141,13 @@ We use the signing CA to issue the server certificate. The certificate type is d
 Certain events, like certificate replacement or loss of private key, require a certificate to be revoked before its scheduled expiration date. The openssl ca -revoke command marks a certificate as revoked in the CA database. It will from then on be included in CRLs issued by the CA. The above command revokes the certificate with serial number 01 (hex).
 
 ## 3.6 Create CRL
-```openssl ca -gencrl \
+```
+openssl ca -gencrl \
     -config etc/signing-ca.conf \
     -out crl/signing-ca.crl
-The openssl ca -gencrl command creates a certificate revocation list (CRL). The CRL contains all revoked, not-yet-expired certificates from the CA database. A new CRL must be issued at regular intervals.
 ```
+The openssl ca -gencrl command creates a certificate revocation list (CRL). The CRL contains all revoked, not-yet-expired certificates from the CA database. A new CRL must be issued at regular intervals.
+
 
 # 4. Output Formats
 ## 4.1 Create DER certificate
@@ -149,12 +159,14 @@ The openssl ca -gencrl command creates a certificate revocation list (CRL). The 
 All published certificates must be in DER format [RFC 2585#section-3]. Also see Appendix A: MIME Types.
 
 ## 4.2 Create DER CRL
-```openssl crl \
+```
+openssl crl \
     -in crl/signing-ca.crl \
     -out crl/signing-ca.crl \
-    -outform der```
-All published CRLs must be in DER format [RFC 2585#section-3]. Also see Appendix A: MIME Types.
+    -outform der
 ```
+All published CRLs must be in DER format [RFC 2585#section-3]. Also see Appendix A: MIME Types.
+
 
 ## 4.3 Create PKCS#7 bundle
 ```
