@@ -9,9 +9,6 @@ Overview
 Welcome to the DJNS group's repository for Homework 8! In this assignment, we will be designing and building a Public Key Infrastructure (PKI) that includes a Root Certificate Authority (CA), a Signing CA, and a TLS Certificate. The project follows the guidelines outlined in the PKI Tutorial.
 
 
-Uploading Screen Recording 2023-12-03 at 3.52.59 PM.mov…
-
-
 
 # 1. Create Root CA
 ## 1.1 Create directories
