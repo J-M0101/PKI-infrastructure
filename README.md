@@ -243,3 +243,34 @@ The openssl pkcs7 command can be used to display the contents of PKCS#7 bundles.
     -info
 ```
 The openssl pkcs12 command can be used to display the contents of PKCS#12 bundles.
+
+# We will use the generated TLS certificate above to configure Tomcat to work with SSL. For that , we need to generate a keystore which has the complete certificate chain beginning from the root and up until the server.
+
+## Prepare the keystore file and add the root and signing certificate:
+
+```
+keytool -import -alias root-ca -keystore certs/simple.jks -trustcacerts -file ca/root-ca.crt
+keytool -import -alias signing-ca -keystore certs/simple.jks -trustcacerts -file ca/signing-ca.crt
+```
+## Generate the certificate-key pair for the server:
+```
+openssl pkcs12 -export -name "tomcat" -inkey certs/simple.org.key -in certs/simple.org.crt -out certs/simple.p12
+```
+
+## Import the certificate-key pair to the keystore:
+
+```
+keytool -importkeystore -srckeystore certs/simple.p12 -destkeystore certs/simple.jks -srcstoretype pkcs12 -alias tomcat
+```
+
+## Once the keystore is ready, then in Tomcat, the SSL configuration needs to be made in “server.xml” which is located in the “conf” directory of the Tomcat installation.
+
+```
+<Connector
+           protocol="org.apache.coyote.http11.Http11NioProtocol"
+           port="443" maxThreads="200"
+           maxParameterCount="1000"
+           scheme="https" secure="true" SSLEnabled="true"
+           keystoreFile="/Users/joshuamedina/Desktop/148Project/PKI-infrastructure/certs/simple.jks" keystorePass="pass123"
+           clientAuth="false" sslProtocol="TLS"/>
+```
