@@ -19,7 +19,7 @@ chmod 700 ca/root-ca/private
 
 The ca directory holds CA resources, the crl directory holds CRLs, and the certs directory holds user certificates.
 
-1.2 Create database
+## 1.2 Create database
 
 ```
 cp /dev/null ca/root-ca/db/root-ca.db
