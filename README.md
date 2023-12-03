@@ -61,7 +61,8 @@ The ca directory holds CA resources, the crl directory holds CRLs, and the certs
 ```cp /dev/null ca/signing-ca/db/signing-ca.db
 cp /dev/null ca/signing-ca/db/signing-ca.db.attr
 echo 01 > ca/signing-ca/db/signing-ca.crt.srl
-echo 01 > ca/signing-ca/db/signing-ca.crl.srl```
+echo 01 > ca/signing-ca/db/signing-ca.crl.srl
+```
 
 The contents of these files are described in Appendix B: CA Database.
 
@@ -69,7 +70,8 @@ The contents of these files are described in Appendix B: CA Database.
 ```openssl req -new \
     -config etc/signing-ca.conf \
     -out ca/signing-ca.csr \
-    -keyout ca/signing-ca/private/signing-ca.key```
+    -keyout ca/signing-ca/private/signing-ca.key
+```
 
 With the openssl req -new command we create a private key and a CSR for the signing CA. You will be asked for a passphrase to protect the private key. The openssl req command takes its configuration from the [req] section of the configuration file.
 
@@ -78,7 +80,8 @@ With the openssl req -new command we create a private key and a CSR for the sign
     -config etc/root-ca.conf \
     -in ca/signing-ca.csr \
     -out ca/signing-ca.crt \
-    -extensions signing_ca_ext```
+    -extensions signing_ca_ext
+```
 
 With the openssl ca command we issue a certificate based on the CSR. The command takes its configuration from the [ca] section of the configuration file. Note that it is the root CA that issues the signing CA certificate! Note also that we attach a different set of extensions.
 
