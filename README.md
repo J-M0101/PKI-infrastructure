@@ -317,3 +317,6 @@ keytool -importkeystore -srckeystore certs/simple.p12 -destkeystore certs/simple
            keystoreFile="/Users/joshuamedina/Desktop/148Project/PKI-infrastructure/certs/simple.jks" keystorePass="pass123"
            clientAuth="false" sslProtocol="TLS"/>
 ```
+
+![image](https://github.com/J-M0101/PKI-infrastructure/assets/115431730/a15b0093-4e3b-426e-b0d8-d5e8e5d6a1d5)
+
