@@ -5,9 +5,6 @@ B)   Use the TLS certificate to install a web server, e.g. tomcat, https://tomca
 
 Document progress, including screenshots/recording of web browser showing you are securely connected to the site you have created, and submit Word document including github reference to code, etc..
 
-
-https://github.com/J-M0101/PKI-infrastructure/assets/115431730/3f0e4d48-bff5-4f7d-a1b2-c96b7d1bb907
-
 https://github.com/J-M0101/PKI-infrastructure/assets/115431730/9c63cf00-aefc-464c-b934-fe560c8ddb7a
 
 
